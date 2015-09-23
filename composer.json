@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0",
+        "bielsystems/boletophp": "dev-master"
     },
     "extra": {
         "installer-name": "boleto"
