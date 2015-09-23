@@ -22,6 +22,29 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['boletosettings'] = 'Configurações do boleto';
+$string['vencimento'] = 'Vencimento';
+$string['vencimento_help'] = 'Data de vencimento do boleto';
+$string['valor'] = 'Valor';
+$string['valor_help'] = 'Valor total do boleto.';
+$string['sequencial'] = 'Sequencial';
+$string['sequencial_help'] = 'Número sequencial para compor o Nosso Numero';
+$string['cedente'] = 'Cedente';
+$string['cedente_help'] = '';
+$string['sacado'] = 'Sacado';
+$string['sacado_help'] = '';
+$string['agencia'] = 'Agencia';
+$string['agencia_help'] = 'Sem o DV';
+$string['carteira'] = 'Carteira';
+$string['carteira_help'] = '';
+$string['conta'] = 'Conta';
+$string['conta_help'] = '';
+$string['convenio'] = 'Convenio';
+$string['convenio_help'] = '';
+$string['waitforpayment'] = 'Aguardar pagamento para inscrever';
+$string['waitforpayment_help'] = 'Se essa opção for marcada, o usuário só será inscrito após compensação do boleto. Caso contrario ele é automaticamente inscrito e a inscrição é suspensa caso o pagamento nao seja compensado.';
+
+
 $string['canntenrol'] = 'Enrolment is disabled or inactive';
 $string['cohortnonmemberinfo'] = 'Only members of cohort \'{$a}\' can boleto-enrol.';
 $string['cohortonly'] = 'Only cohort members';
@@ -85,8 +108,8 @@ If an enrolment key is specified, any user attempting to enrol in the course wil
 $string['passwordinvalid'] = 'Incorrect enrolment key, please try again';
 $string['passwordinvalidhint'] = 'That enrolment key was incorrect, please try again<br />
 (Here\'s a hint - it starts with \'{$a}\')';
-$string['pluginname'] = 'boleto enrolment';
-$string['pluginname_desc'] = 'The boleto enrolment plugin allows users to choose which courses they want to participate in. The courses may be protected by an enrolment key. Internally the enrolment is done via the manual enrolment plugin which has to be enabled in the same course.';
+$string['pluginname'] = 'Boleto Bancário';
+$string['pluginname_desc'] = 'The boleto bancário enrolment plugin allow teachers and managers to configure a way for users to pay to enrol on courses.';
 $string['requirepassword'] = 'Require enrolment key';
 $string['requirepassword_desc'] = 'Require enrolment key in new courses and prevent removing of enrolment key from existing courses.';
 $string['role'] = 'Default assigned role';

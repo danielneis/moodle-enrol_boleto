@@ -26,6 +26,40 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
 
+    $settings->add(new admin_setting_heading('enrol_boleto_settings', '', get_string('boletosettings', 'enrol_boleto')));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/waitforpayment',
+        get_string('waitforpayment', 'enrol_boleto'), get_string('waitforpayment_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/vencimento',
+        get_string('vencimento', 'enrol_boleto'), get_string('vencimento_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/valor',
+        get_string('valor', 'enrol_boleto'), get_string('valor_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/sequencial',
+        get_string('sequencial', 'enrol_boleto'), get_string('sequencial_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/cedente',
+        get_string('cedente', 'enrol_boleto'), get_string('cedente_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    // Para gerar o nosso número.
+    $settings->add(new admin_setting_configtext('enrol_boleto/sacado',
+        get_string('sacado', 'enrol_boleto'), get_string('sacado_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    // Até 4 dígitos.
+    $settings->add(new admin_setting_configtext('enrol_boleto/agencia',
+        get_string('agencia', 'enrol_boleto'), get_string('agencia_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/carteira',
+        get_string('carteira', 'enrol_boleto'), get_string('carteira_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/conta',
+        get_string('conta', 'enrol_boleto'), get_string('conta_help', 'enrol_boleto'), 0, PARAM_INT));
+
+    $settings->add(new admin_setting_configtext('enrol_boleto/convenio',
+        get_string('convenio', 'enrol_boleto'), get_string('convenio_help', 'enrol_boleto'), 0, PARAM_INT));
+
     //--- general settings -----------------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_boleto_settings', '', get_string('pluginname_desc', 'enrol_boleto')));
 
