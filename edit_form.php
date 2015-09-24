@@ -36,8 +36,70 @@ class enrol_boleto_edit_form extends moodleform {
         $mform = $this->_form;
 
         list($instance, $plugin, $context) = $this->_customdata;
+        $boletooptions = $plugin->get_boleto_options($instance);
 
-        $mform->addElement('header', 'header', get_string('pluginname', 'enrol_boleto'));
+        $mform->addElement('header', 'header', get_string('boletosettings', 'enrol_boleto'));
+
+        $mform->addElement('checkbox', 'customint7', get_string('waitforpayment', 'enrol_boleto'));
+        $mform->setDefault('customint7', $instance->customint7);
+
+        $mform->addElement('text', 'valor', get_string('valor', 'enrol_boleto'));
+        $mform->setDefault('valor', $boletooptions->valor);
+        $mform->setType('valor', PARAM_TEXT);
+
+        $mform->addElement('text', 'cedente', get_string('cedente', 'enrol_boleto'));
+        $mform->setDefault('cedente', $boletooptions->cedente);
+        $mform->setType('cedente', PARAM_INT);
+
+        $mform->addElement('text', 'cedentedv', get_string('cedentedv', 'enrol_boleto'));
+        $mform->setDefault('cedentedv', $boletooptions->cedentedv);
+        $mform->setType('cedentedv', PARAM_INT);
+
+        $mform->addElement('text', 'sacado', get_string('sacado', 'enrol_boleto'));
+        $mform->setDefault('sacado', $boletooptions->sacado);
+        $mform->setType('sacado', PARAM_TEXT);
+
+        $mform->addElement('text', 'agencia', get_string('agencia', 'enrol_boleto'));
+        $mform->setDefault('agencia', $boletooptions->agencia);
+        $mform->setType('agencia', PARAM_TEXT);
+
+        $mform->addElement('text', 'carteira', get_string('carteira', 'enrol_boleto'));
+        $mform->setDefault('carteira', $boletooptions->carteira);
+        $mform->setType('carteira', PARAM_TEXT);
+
+        $mform->addElement('text', 'carteiradv', get_string('carteiradv', 'enrol_boleto'));
+        $mform->setDefault('carteiradv', $boletooptions->carteiradv);
+        $mform->setType('carteiradv', PARAM_TEXT);
+
+        $mform->addElement('text', 'conta', get_string('conta', 'enrol_boleto'));
+        $mform->setDefault('conta', $boletooptions->conta);
+        $mform->setType('conta', PARAM_INT);
+
+        $mform->addElement('text', 'contadv', get_string('contadv', 'enrol_boleto'));
+        $mform->setDefault('contadv', $boletooptions->contadv);
+        $mform->setType('contadv', PARAM_INT);
+
+        $mform->addElement('text', 'nomefantasia', get_string('nomefantasia', 'enrol_boleto'));
+        $mform->setDefault('nomefantasia', $boletooptions->nomefantasia);
+        $mform->setType('nomefantasia', PARAM_TEXT);
+
+        $mform->addElement('text', 'razaosocial', get_string('razaosocial', 'enrol_boleto'));
+        $mform->setDefault('razaosocial', $boletooptions->razaosocial);
+        $mform->setType('razaosocial', PARAM_TEXT);
+
+        $mform->addElement('text', 'cnpj', get_string('cnpj', 'enrol_boleto'));
+        $mform->setDefault('cnpj', $boletooptions->cnpj);
+        $mform->setType('cnpj', PARAM_TEXT);
+
+        $mform->addElement('text', 'cidade', get_string('cidade', 'enrol_boleto'));
+        $mform->setDefault('cidade', $boletooptions->cidade);
+        $mform->setType('cidade', PARAM_TEXT);
+
+        $mform->addElement('text', 'endereco', get_string('endereco', 'enrol_boleto'));
+        $mform->setDefault('endereco', $boletooptions->endereco);
+        $mform->setType('endereco', PARAM_TEXT);
+
+        $mform->addElement('header', 'header', get_string('enrolsettings', 'enrol_boleto'));
 
         $nameattribs = array('size' => '20', 'maxlength' => '255');
         $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'), $nameattribs);

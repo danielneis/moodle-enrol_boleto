@@ -639,4 +639,26 @@ class enrol_boleto_plugin extends enrol_plugin {
         $context = context_course::instance($instance->courseid);
         return has_capability('enrol/boleto:config', $context);
     }
+
+    public function get_boleto_options($instance) {
+        if (empty($instance->customchar3)) {
+            $options = new stdclass();
+            $options->valor = null;
+            $options->cedente = null;
+            $options->sacado = null;
+            $options->agencia = null;
+            $options->carteira = null;
+            $options->conta = null;
+            $options->convenio = null;
+            $ptions->contadv = null;
+            $ptions->razaosocial = null;
+            $ptions->nomefantasia = null;
+            $ptions->cnpj = null;
+            $ptions->endereco = null;
+            $ptions->cidade = null;
+            return $options;
+        } else {
+            return json_decode($instance->customchar3);
+        }
+    }
 }

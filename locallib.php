@@ -31,7 +31,7 @@ class enrol_boleto_enrol_form extends moodleform {
     protected $toomany = false;
 
     /**
-     * Overriding this function to get unique form id for multiple self enrolments.
+     * Overriding this function to get unique form id for multiple boleto enrolments.
      *
      * @return string form identifier
      */
@@ -45,17 +45,17 @@ class enrol_boleto_enrol_form extends moodleform {
         $mform = $this->_form;
         $instance = $this->_customdata;
         $this->instance = $instance;
-        $plugin = enrol_get_plugin('self');
+        $plugin = enrol_get_plugin('boleto');
 
         $heading = $plugin->get_instance_name($instance);
-        $mform->addElement('header', 'selfheader', $heading);
+        $mform->addElement('header', 'boletoheader', $heading);
 
         if ($instance->password) {
-            // Change the id of self enrolment key input as there can be multiple self enrolment methods.
+            // Change the id of boleto enrolment key input as there can be multiple boleto enrolment methods.
             $mform->addElement('passwordunmask', 'enrolpassword', get_string('password', 'enrol_boleto'),
                     array('id' => 'enrolpassword_'.$instance->id));
             $context = context_course::instance($this->instance->courseid);
-            $keyholders = get_users_by_capability($context, 'enrol/self:holdkey', user_picture::fields('u'));
+            $keyholders = get_users_by_capability($context, 'enrol/boleto:holdkey', user_picture::fields('u'));
             $keyholdercount = 0;
             foreach ($keyholders as $keyholder) {
                 $keyholdercount++;
@@ -74,9 +74,11 @@ class enrol_boleto_enrol_form extends moodleform {
                 $mform->addElement('static', 'keyholder'.$keyholdercount, '', $profilepic . $profilelink);
             }
 
-        } else {
-            $mform->addElement('static', 'nokey', '', get_string('nopassword', 'enrol_boleto'));
         }
+
+        $boletourl = new moodle_url('/enrol/boleto/boleto.php', array('instanceid' => $this->instance->id));
+        $boletourl = $boletourl->out(false);
+        $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfo', 'enrol_boleto', $boletourl));
 
         $this->add_action_buttons(false, get_string('enrolme', 'enrol_boleto'));
 
@@ -120,7 +122,7 @@ class enrol_boleto_enrol_form extends moodleform {
                     }
 
                 } else {
-                    $plugin = enrol_get_plugin('self');
+                    $plugin = enrol_get_plugin('boleto');
                     if ($plugin->get_config('showhint')) {
                         $hint = core_text::substr($instance->password, 0, 1);
                         $errors['enrolpassword'] = get_string('passwordinvalidhint', 'enrol_boleto', $hint);

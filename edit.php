@@ -99,6 +99,7 @@ if ($mform->is_cancelled()) {
         $instance->customint4     = $data->customint4;
         $instance->customint5     = $data->customint5;
         $instance->customint6     = $data->customint6;
+        $instance->customint7     = isset($data->customint7);
         $instance->customtext1    = $data->customtext1;
         $instance->roleid         = $data->roleid;
         $instance->enrolperiod    = $data->enrolperiod;
@@ -108,6 +109,24 @@ if ($mform->is_cancelled()) {
         $instance->enrolstartdate = $data->enrolstartdate;
         $instance->enrolenddate   = $data->enrolenddate;
         $instance->timemodified   = time();
+
+        $boletooptions = new stdclass();
+        $boletooptions->valor = $data->valor;
+        $boletooptions->cedente = $data->cedente;
+        $boletooptions->cedentedv = $data->cedentedv;
+        $boletooptions->sacado = $data->sacado;
+        $boletooptions->agencia = $data->agencia;
+        $boletooptions->carteira = $data->carteira;
+        $boletooptions->carteiradv = $data->carteiradv;
+        $boletooptions->conta = $data->conta;
+        $boletooptions->contadv = $data->contadv;
+        $boletooptions->razaosocial = $data->razaosocial;
+        $boletooptions->nomefantasia = $data->nomefantasia;
+        $boletooptions->cnpj = $data->cnpj;
+        $boletooptions->endereco = $data->endereco;
+        $boletooptions->cidade = $data->cidade;
+        $instance->customchar3 = json_encode($boletooptions);
+
         $DB->update_record('enrol', $instance);
 
         if ($reset) {
@@ -125,6 +144,7 @@ if ($mform->is_cancelled()) {
             'customint4'      => $data->customint4,
             'customint5'      => $data->customint5,
             'customint6'      => $data->customint6,
+            'customint7'      => $data->customint7,
             'customtext1'     => $data->customtext1,
             'roleid'          => $data->roleid,
             'enrolperiod'     => $data->enrolperiod,
@@ -133,6 +153,22 @@ if ($mform->is_cancelled()) {
             'expirythreshold' => $data->expirythreshold,
             'enrolstartdate'  => $data->enrolstartdate,
             'enrolenddate'    => $data->enrolenddate);
+        $boletooptions = new stdclass();
+        $boletooptions->valor = $data->valor;
+        $boletooptions->cedente = $data->cedente;
+        $boletooptions->cedentedv = $data->cedentedv;
+        $boletooptions->sacado = $data->sacado;
+        $boletooptions->agencia = $data->agencia;
+        $boletooptions->carteira = $data->carteira;
+        $boletooptions->carteiradv = $data->carteiradv;
+        $boletooptions->conta = $data->conta;
+        $boletooptions->contadv = $data->contadv;
+        $boletooptions->razaosocial = $data->razaosocial;
+        $boletooptions->nomefantasia = $data->nomefantasia;
+        $boletooptions->cnpj = $data->cnpj;
+        $boletooptions->endereco = $data->endereco;
+        $boletooptions->cidade = $data->cidade;
+        $fields['customchar3'] = json_encode($boletooptions);
         $plugin->add_instance($course, $fields);
     }
 

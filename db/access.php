@@ -58,7 +58,7 @@ $capabilities = array(
     ),
 
     /* Voluntarily unenrol boleto from course - watch out for data loss. */
-    'enrol/boleto:unenrolboleto' => array(
+    'enrol/boleto:unenrolself' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(

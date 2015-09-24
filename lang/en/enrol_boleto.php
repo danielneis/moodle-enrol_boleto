@@ -23,6 +23,8 @@
  */
 
 $string['boletosettings'] = 'Configurações do boleto';
+$string['enrolsettings'] = 'Configurações de inscrição';
+$string['boletoprintandpayinfo'] = 'Para se inscrever neste curso é necessário pagar um boleto bancário. Ao clicar no botão "Inscrever-me" abaixo, você será automaticamente inscrito no curso, mesmo não tendo pago o boleto. Caso você não pague o boleto até o dia do vencimento, sua inscrição no curso será suspensa. Após se inscrever, você poderá acessar novamente este boleto no link "Ver boletos" do menu "Administração do curso".<br/>Note que se você pagar o boleto e não clicar no botão abaixo, sua inscrição não será efetuada.<br/> Você pode acessar este <a href="{$a}">link para ver e imprimir o boleto</a>.';
 $string['vencimento'] = 'Vencimento';
 $string['vencimento_help'] = 'Data de vencimento do boleto';
 $string['valor'] = 'Valor';
@@ -30,19 +32,26 @@ $string['valor_help'] = 'Valor total do boleto.';
 $string['sequencial'] = 'Sequencial';
 $string['sequencial_help'] = 'Número sequencial para compor o Nosso Numero';
 $string['cedente'] = 'Cedente';
-$string['cedente_help'] = '';
+$string['cedentedv'] = 'Cedente DV';
+$string['cedente_help'] = 'Conta do cedente, sem DV';
 $string['sacado'] = 'Sacado';
 $string['sacado_help'] = '';
-$string['agencia'] = 'Agencia';
+$string['agencia'] = 'Agência';
 $string['agencia_help'] = 'Sem o DV';
 $string['carteira'] = 'Carteira';
+$string['carteiradv'] = 'Carteira DV';
 $string['carteira_help'] = '';
 $string['conta'] = 'Conta';
+$string['contadv'] = 'Conta DV';
 $string['conta_help'] = '';
-$string['convenio'] = 'Convenio';
-$string['convenio_help'] = '';
+$string['nomefantasia'] = 'Nome fantasia';
+$string['razaosocial'] = 'Razão social';
+$string['cnpj'] = 'CNPJ';
+$string['cidade'] = 'Cidade';
+$string['endereco'] = 'Endereço';
 $string['waitforpayment'] = 'Aguardar pagamento para inscrever';
 $string['waitforpayment_help'] = 'Se essa opção for marcada, o usuário só será inscrito após compensação do boleto. Caso contrario ele é automaticamente inscrito e a inscrição é suspensa caso o pagamento nao seja compensado.';
+$string['viewboleto'] = 'Ver e imprimir boleto';
 
 
 $string['canntenrol'] = 'Enrolment is disabled or inactive';
@@ -117,7 +126,7 @@ $string['boleto:config'] = 'Configure boleto enrol instances';
 $string['boleto:holdkey'] = 'Appear as the boleto enrolment key holder';
 $string['boleto:manage'] = 'Manage enrolled users';
 $string['boleto:unenrol'] = 'Unenrol users from course';
-$string['boleto:unenrolboleto'] = 'Unenrol boleto from the course';
+$string['boleto:unenrolself'] = 'Unenrol self from the course';
 $string['sendcoursewelcomemessage'] = 'Send course welcome message';
 $string['sendcoursewelcomemessage_help'] = 'If enabled, users receive a welcome message via email when they boleto-enrol in a course.';
 $string['showhint'] = 'Show hint';

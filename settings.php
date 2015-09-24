@@ -31,14 +31,8 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('enrol_boleto/waitforpayment',
         get_string('waitforpayment', 'enrol_boleto'), get_string('waitforpayment_help', 'enrol_boleto'), 0, PARAM_INT));
 
-    $settings->add(new admin_setting_configtext('enrol_boleto/vencimento',
-        get_string('vencimento', 'enrol_boleto'), get_string('vencimento_help', 'enrol_boleto'), 0, PARAM_INT));
-
     $settings->add(new admin_setting_configtext('enrol_boleto/valor',
         get_string('valor', 'enrol_boleto'), get_string('valor_help', 'enrol_boleto'), 0, PARAM_INT));
-
-    $settings->add(new admin_setting_configtext('enrol_boleto/sequencial',
-        get_string('sequencial', 'enrol_boleto'), get_string('sequencial_help', 'enrol_boleto'), 0, PARAM_INT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/cedente',
         get_string('cedente', 'enrol_boleto'), get_string('cedente_help', 'enrol_boleto'), 0, PARAM_INT));
