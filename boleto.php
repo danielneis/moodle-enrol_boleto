@@ -28,7 +28,11 @@ require_once('../../config.php');
 $instanceid = required_param('instanceid', PARAM_INT);
 $parcela = optional_param('parcela', 0, PARAM_INT);
 
-$instance = $DB->get_record('enrol', array('id' => $instanceid));
+require_login(SITEID);
+
+if (!$instance = $DB->get_record('enrol', array('id' => $instanceid))) {
+    throw new moodle_exception('invalidboleto', 'enrol_boleto');
+}
 $boletooptions = json_decode($instance->customchar3);
 
 if (($instance->customint8 && $parcela) or $parcela > 2) {
