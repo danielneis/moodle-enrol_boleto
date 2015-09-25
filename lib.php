@@ -244,29 +244,29 @@ class enrol_boleto_plugin extends enrol_plugin {
             }
             // Check if user is already enroled.
             if ($DB->get_record('user_enrolments', array('userid' => $USER->id, 'enrolid' => $instance->id))) {
-                return get_string('canntenrol', 'enrol_boleto');
+                return get_string('cannotenrol', 'enrol_boleto');
             }
         }
 
         if ($instance->status != ENROL_INSTANCE_ENABLED) {
-            return get_string('canntenrol', 'enrol_boleto');
+            return get_string('cannotenrol', 'enrol_boleto');
         }
 
         if ($instance->enrolstartdate != 0 and $instance->enrolstartdate > time()) {
-            return get_string('canntenrol', 'enrol_boleto');
+            return get_string('cannotenrol', 'enrol_boleto');
         }
 
         if ($instance->enrolenddate != 0 and $instance->enrolenddate < time()) {
-            return get_string('canntenrol', 'enrol_boleto');
+            return get_string('cannotenrol', 'enrol_boleto');
         }
 
         if (!$instance->customint6) {
             // New enrols not allowed.
-            return get_string('canntenrol', 'enrol_boleto');
+            return get_string('cannotenrol', 'enrol_boleto');
         }
 
         if ($DB->record_exists('user_enrolments', array('userid' => $USER->id, 'enrolid' => $instance->id))) {
-            return get_string('canntenrol', 'enrol_boleto');
+            return get_string('cannotenrol', 'enrol_boleto');
         }
 
         if ($instance->customint3 > 0) {
@@ -655,19 +655,20 @@ class enrol_boleto_plugin extends enrol_plugin {
     public function get_boleto_options($instance) {
         if (empty($instance->customchar3)) {
             $options = new stdclass();
+            $options->avista = null;
             $options->valor = null;
             $options->cedente = null;
-            $options->sacado = null;
+            $options->cedentedv = null;
             $options->agencia = null;
             $options->carteira = null;
+            $options->carteiradv = null;
             $options->conta = null;
-            $options->convenio = null;
-            $ptions->contadv = null;
-            $ptions->razaosocial = null;
-            $ptions->nomefantasia = null;
-            $ptions->cnpj = null;
-            $ptions->endereco = null;
-            $ptions->cidade = null;
+            $options->contadv = null;
+            $options->razaosocial = null;
+            $options->nomefantasia = null;
+            $options->cnpj = null;
+            $options->endereco = null;
+            $options->cidade = null;
             return $options;
         } else {
             return json_decode($instance->customchar3);

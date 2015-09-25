@@ -26,9 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
 
-    $settings->add(new admin_setting_heading('enrol_boleto_settings', '', get_string('boletosettings', 'enrol_boleto')));
+    $settings->add(new admin_setting_heading('enrol_boleto_settings', get_string('boletosettings', 'enrol_boleto'), '', 'admin'));
 
-    $settings->add(new admin_setting_configtext('enrol_boleto/waitforpayment',
+    $settings->add(new admin_setting_configcheckbox('enrol_boleto/waitforpayment',
         get_string('waitforpayment', 'enrol_boleto'), get_string('waitforpayment_help', 'enrol_boleto'), 0, PARAM_INT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/cedente',
@@ -54,22 +54,23 @@ if ($ADMIN->fulltree) {
         get_string('contadv', 'enrol_boleto'), get_string('contadv_help', 'enrol_boleto'), 0, PARAM_INT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/razaosocial',
-        get_string('razaosocial', 'enrol_boleto'), get_string('razaosocial_help', 'enrol_boleto'), 0, PARAM_INT));
+        get_string('razaosocial', 'enrol_boleto'), get_string('razaosocial_help', 'enrol_boleto'), '', PARAM_TEXT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/nomefantasia',
-        get_string('nomefantasia', 'enrol_boleto'), get_string('nomefantasia_help', 'enrol_boleto'), 0, PARAM_INT));
+        get_string('nomefantasia', 'enrol_boleto'), get_string('nomefantasia_help', 'enrol_boleto'), 0, PARAM_TEXT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/cnpj',
-        get_string('cnpj', 'enrol_boleto'), get_string('cnpj_help', 'enrol_boleto'), 0, PARAM_INT));
+        get_string('cnpj', 'enrol_boleto'), get_string('cnpj_help', 'enrol_boleto'), '', PARAM_TEXT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/cidade',
-        get_string('cidade', 'enrol_boleto'), get_string('cidade_help', 'enrol_boleto'), 0, PARAM_INT));
+        get_string('cidade', 'enrol_boleto'), get_string('cidade_help', 'enrol_boleto'), '', PARAM_TEXT));
 
     $settings->add(new admin_setting_configtext('enrol_boleto/endereco',
-        get_string('endereco', 'enrol_boleto'), get_string('endereco_help', 'enrol_boleto'), 0, PARAM_INT));
+        get_string('endereco', 'enrol_boleto'), get_string('endereco_help', 'enrol_boleto'), '', PARAM_TEXT));
 
     //--- general settings -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_heading('enrol_boleto_settings', '', get_string('pluginname_desc', 'enrol_boleto')));
+    $settings->add(new admin_setting_heading('enrol_settings',
+    get_string('enrolsettings', 'enrol_boleto'), get_string('enrolsettings', 'enrol_boleto'), 'admin'));
 
     $settings->add(new admin_setting_configcheckbox('enrol_boleto/requirepassword',
         get_string('requirepassword', 'enrol_boleto'), get_string('requirepassword_desc', 'enrol_boleto'), 0));

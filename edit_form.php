@@ -40,8 +40,11 @@ class enrol_boleto_edit_form extends moodleform {
 
         $mform->addElement('header', 'header', get_string('boletosettings', 'enrol_boleto'));
 
-        $mform->addElement('checkbox', 'customint7', get_string('waitforpayment', 'enrol_boleto'));
+        $mform->addElement('checkbox', 'customint7', get_string('waitforpayment', 'enrol_boleto'), get_string('waitforpayment_help', 'enrol_boleto'));
         $mform->setDefault('customint7', $instance->customint7);
+
+        $mform->addElement('checkbox', 'customint8', get_string('avista', 'enrol_boleto'), get_string('avista_help', 'enrol_boleto'));
+        $mform->setDefault('customint8', $instance->customint8);
 
         $mform->addElement('text', 'valor', get_string('valor', 'enrol_boleto'));
         $mform->setDefault('valor', $boletooptions->valor);
@@ -57,15 +60,15 @@ class enrol_boleto_edit_form extends moodleform {
 
         $mform->addElement('text', 'agencia', get_string('agencia', 'enrol_boleto'));
         $mform->setDefault('agencia', $boletooptions->agencia);
-        $mform->setType('agencia', PARAM_TEXT);
+        $mform->setType('agencia', PARAM_INT);
 
         $mform->addElement('text', 'carteira', get_string('carteira', 'enrol_boleto'));
         $mform->setDefault('carteira', $boletooptions->carteira);
-        $mform->setType('carteira', PARAM_TEXT);
+        $mform->setType('carteira', PARAM_INT);
 
         $mform->addElement('text', 'carteiradv', get_string('carteiradv', 'enrol_boleto'));
         $mform->setDefault('carteiradv', $boletooptions->carteiradv);
-        $mform->setType('carteiradv', PARAM_TEXT);
+        $mform->setType('carteiradv', PARAM_INT);
 
         $mform->addElement('text', 'conta', get_string('conta', 'enrol_boleto'));
         $mform->setDefault('conta', $boletooptions->conta);

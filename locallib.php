@@ -77,8 +77,19 @@ class enrol_boleto_enrol_form extends moodleform {
         }
 
         $boletourl = new moodle_url('/enrol/boleto/boleto.php', array('instanceid' => $this->instance->id));
-        $boletourl = $boletourl->out(false);
-        $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfo', 'enrol_boleto', $boletourl));
+        $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfo', 'enrol_boleto'));
+        // customint8 == avista.
+        if ($this->instance->customint8) {
+            $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfodirectlinks', 'enrol_boleto', $boletourl->out(false)));
+        } else {
+            $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfoparceladolink0', 'enrol_boleto', $boletourl->out(false)));
+
+            $boletourl->param('parcela', 1);
+            $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfoparceladolink1', 'enrol_boleto', $boletourl->out(false)));
+
+            $boletourl->param('parcela', 2);
+            $mform->addElement('static', 'info', '', get_string('boletoprintandpayinfoparceladolink2', 'enrol_boleto', $boletourl->out(false)));
+        }
 
         $this->add_action_buttons(false, get_string('enrolme', 'enrol_boleto'));
 

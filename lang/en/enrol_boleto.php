@@ -22,8 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['alreadyenrolledinfo'] = 'Você já está inscrito neste curso. Abaixo estão os boletos bancários que você deve pagar para permanecer inscrito.';
+$string['avista'] = 'A vista';
+$string['avista_help'] = 'Para pagamento parcelado (1+2) desmarque essa opção.';
 $string['boletosettings'] = 'Configurações do boleto';
-$string['boletoprintandpayinfo'] = 'Para se inscrever neste curso é necessário pagar um boleto bancário. Ao clicar no botão "Inscrever-me" abaixo, você será automaticamente inscrito no curso, mesmo não tendo pago o boleto. Caso você não pague o boleto até o dia do vencimento, sua inscrição no curso será suspensa. Após se inscrever, você poderá acessar novamente este boleto no link "Ver boletos" do menu "Administração do curso".<br/>Note que se você pagar o boleto e não clicar no botão abaixo, sua inscrição não será efetuada.<br/> Você pode acessar este <a href="{$a}">link para ver e imprimir o boleto</a>.';
+$string['boletoprintandpayinfo'] = 'Para se inscrever neste curso é necessário pagar um boleto bancário. Ao clicar no botão "Inscrever-me" abaixo, você será automaticamente inscrito no curso, mesmo não tendo pago o boleto. Caso você não pague o boleto até o dia do vencimento, sua inscrição no curso será suspensa. Após se inscrever, você poderá acessar novamente este boleto no link "Ver boletos" do menu "Administração do curso".<br/>Note que se você pagar o boleto e não clicar no botão abaixo, sua inscrição não será efetuada.';
+$string['boletoprintandpayinfodirectlinks'] = 'Você pode acessar este <a href="{$a}">link para ver e imprimir o boleto</a>.';
+$string['boletoprintandpayinfoparceladolink0'] = 'Você pode acessar este <a href="{$a}">link para ver e imprimir o primeiro boleto, a ser pago a vista</a>.';
+$string['boletoprintandpayinfoparceladolink1'] = 'Você pode acessar este <a href="{$a}">link para ver e imprimir o segundo boleto, a ser pago em até 30 dias</a>.';
+$string['boletoprintandpayinfoparceladolink2'] = 'Você pode acessar este <a href="{$a}">link para ver e imprimir o boleto, a ser pago em até 60 dias</a>.';
 $string['directavista'] = 'A vista no boleto';
 $string['directparcelado'] = 'Parcelado no boleto';
 $string['directpagseguro'] = 'PagSeguro';
@@ -35,29 +42,37 @@ $string['valor_help'] = 'Valor total do boleto.';
 $string['sequencial'] = 'Sequencial';
 $string['sequencial_help'] = 'Número sequencial para compor o Nosso Numero';
 $string['cedente'] = 'Cedente';
-$string['cedentedv'] = 'Cedente DV';
+$string['cedentedv'] = 'DV do Cedente';
+$string['cedentedv_help'] = 'Dígito verificador do cedente';
 $string['cedente_help'] = 'Conta do cedente, sem DV';
+$string['enrolboletosettings'] = 'Configurações de inscrição';
 $string['sacado'] = 'Sacado';
 $string['sacado_help'] = '';
 $string['agencia'] = 'Agência';
-$string['agencia_help'] = 'Sem o DV';
+$string['agencia_help'] = 'Número da agência sem o DV';
 $string['carteira'] = 'Carteira';
-$string['carteiradv'] = 'Carteira DV';
-$string['carteira_help'] = '';
+$string['carteiradv'] = 'DV da carteira';
+$string['carteiradv_help'] = 'Dígito verificador da carteira';
+$string['carteira_help'] = 'Número da carteira sem o DV';
 $string['conta'] = 'Conta';
-$string['contadv'] = 'Conta DV';
-$string['conta_help'] = '';
+$string['contadv'] = 'DV da Conta';
+$string['contadv_help'] = 'Dígito verificador da conta';
+$string['conta_help'] = 'Número da conta sem o DV';
 $string['nomefantasia'] = 'Nome fantasia';
+$string['nomefantasia_help'] = 'Nome fantasia que por padrão será impresso no boleto.';
 $string['razaosocial'] = 'Razão social';
+$string['razaosocial_help'] = 'Razão social que por padrão será impressa no boleto.';
 $string['cnpj'] = 'CNPJ';
+$string['cnpj_help'] = 'CNPJ padrão que será impresso no boleto';
 $string['cidade'] = 'Cidade';
+$string['cidade_help'] = 'Cidade padrão que será impressa no boleto';
 $string['endereco'] = 'Endereço';
+$string['endereco_help'] = 'Endereço padrão que será impresso no boleto';
 $string['waitforpayment'] = 'Aguardar pagamento para inscrever';
 $string['waitforpayment_help'] = 'Se essa opção for marcada, o usuário só será inscrito após compensação do boleto. Caso contrario ele é automaticamente inscrito e a inscrição é suspensa caso o pagamento nao seja compensado.';
 $string['viewboleto'] = 'Ver e imprimir boleto';
 
-
-$string['canntenrol'] = 'Enrolment is disabled or inactive';
+$string['cannotenrol'] = 'Enrolment is disabled or inactive';
 $string['cohortnonmemberinfo'] = 'Only members of cohort \'{$a}\' can boleto-enrol.';
 $string['cohortonly'] = 'Only cohort members';
 $string['cohortonly_help'] = 'boleto enrolment may be restricted to members of a specified cohort only. Note that changing this setting has no effect on existing enrolments.';

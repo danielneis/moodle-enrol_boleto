@@ -100,6 +100,7 @@ if ($mform->is_cancelled()) {
         $instance->customint5     = $data->customint5;
         $instance->customint6     = $data->customint6;
         $instance->customint7     = isset($data->customint7);
+        $instance->customint8     = isset($data->customint8);
         $instance->customtext1    = $data->customtext1;
         $instance->roleid         = $data->roleid;
         $instance->enrolperiod    = $data->enrolperiod;
@@ -111,7 +112,6 @@ if ($mform->is_cancelled()) {
         $instance->timemodified   = time();
 
         $boletooptions = new stdclass();
-        $boletooptions->parcelas = $data->parcelas;
         $boletooptions->valor = $data->valor;
         $boletooptions->cedente = $data->cedente;
         $boletooptions->cedentedv = $data->cedentedv;
@@ -145,6 +145,7 @@ if ($mform->is_cancelled()) {
             'customint5'      => $data->customint5,
             'customint6'      => $data->customint6,
             'customint7'      => $data->customint7,
+            'customint8'      => $data->customint8,
             'customtext1'     => $data->customtext1,
             'roleid'          => $data->roleid,
             'enrolperiod'     => $data->enrolperiod,
@@ -154,7 +155,6 @@ if ($mform->is_cancelled()) {
             'enrolstartdate'  => $data->enrolstartdate,
             'enrolenddate'    => $data->enrolenddate);
         $boletooptions = new stdclass();
-        $boletooptions->parcelas = $data->parcelas;
         $boletooptions->valor = $data->valor;
         $boletooptions->cedente = $data->cedente;
         $boletooptions->cedentedv = $data->cedentedv;
