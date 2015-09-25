@@ -34,6 +34,11 @@ $boletooptions = json_decode($instance->customchar3);
 if (($instance->customint8 && $parcela) or $parcela > 2) {
     throw new moodle_exception('invalidparcela', 'enrol_boleto');
 }
+if ($instance->customint8) {
+    $valor_boleto = $boletooptions->valor;
+} else  {
+    $valor_boleto = $boletooptions->valor / 3;
+}
 
 // The following variables are the same defined at vendor/bielsystems/boletophp/boleto_cef.php
 
@@ -41,7 +46,7 @@ $start_date = $instance->timecreated + ($parcela * 30 * 86400); // Cada parcela 
 
 $prazo_para_pagamento = 2 * 86400;
 $data_venc = date("d/m/Y", $start_date + ($prazo_para_pagamento));  // Prazo de X dias  OU  informe data: "13/04/2006"  OU  informe "" se Contra Apresentacao;
-$valor_cobrado = $boletooptions->valor / 3; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+$valor_cobrado = $valor_boleto; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado, 2, ',', '');
 

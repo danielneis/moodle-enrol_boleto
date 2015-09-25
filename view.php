@@ -87,6 +87,7 @@ if ($alreadyenrolled) {
     $PAGE->set_title("{$course->fullname}: Inscrições");
     $PAGE->set_heading($course->fullname . ' '.$course->idnumber);
     echo $OUTPUT->header();
+    require_once($CFG->dirroot.'/enrol/boleto/locallib.php');
     $form = new enrol_boleto_enrol_form($CFG->wwwroot.'/enrol/index.php', $instance);
     $form->display();
 }
