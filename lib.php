@@ -15,16 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Self enrolment plugin.
+ * Boleto enrolment plugin.
  *
  * @package    enrol_boleto
  * @copyright  2010 Petr Skoda  {@link http://skodak.org}
+ * @copyright  2015 Daniel Neis
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Self enrolment plugin implementation.
- * @author Petr Skoda
+ *TODO: numero do documento: numero do evento (2 ano, 2 rede, 3 campus, 4 sequencial(id do curso?)) + 4 numero do ingresso
+ *TODO: quantidade: quantidade de participantes
+ *TODO: nosso numero: faixa de numero fornecida pela caixa
+ *TODO: o primeiro boleto é o valor da matrícula (confirmar que o valor total dividido por 3 é o valor da matricula)
+ *TODO: vencimento de dois dias limitado ao iníico do curso.
+ *TODO: demais parcelas, 30 e 60 dias.
+ *TODO: suspender inscrição caso boleto nao pago
+ */
+
+/**
+ * Boleto enrolment plugin implementation.
+ * @author Petr Skoda (self plugin)
+ * @author Daniel Neis (additions)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrol_boleto_plugin extends enrol_plugin {
