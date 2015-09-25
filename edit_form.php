@@ -55,10 +55,6 @@ class enrol_boleto_edit_form extends moodleform {
         $mform->setDefault('cedentedv', $boletooptions->cedentedv);
         $mform->setType('cedentedv', PARAM_INT);
 
-        $mform->addElement('text', 'sacado', get_string('sacado', 'enrol_boleto'));
-        $mform->setDefault('sacado', $boletooptions->sacado);
-        $mform->setType('sacado', PARAM_TEXT);
-
         $mform->addElement('text', 'agencia', get_string('agencia', 'enrol_boleto'));
         $mform->setDefault('agencia', $boletooptions->agencia);
         $mform->setType('agencia', PARAM_TEXT);

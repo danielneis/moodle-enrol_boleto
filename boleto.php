@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This files show courses based on the city 
+ * This files shows a Boleto Bancário with CEF layout
  *
  * @package enrol_boleto
  * @copyright 2015 Daniel Neis
@@ -26,44 +26,64 @@
 require_once('../../config.php');
 
 $instanceid = required_param('instanceid', PARAM_INT);
+$parcela = optional_param('parcela', 0, PARAM_INT);
 
 $instance = $DB->get_record('enrol', array('id' => $instanceid));
 $boletooptions = json_decode($instance->customchar3);
 
+if ($parcela > $boletooptions->parcelas) {
+    throw new moodle_exception('invalidparcela', 'enrol_boleto');
+}
+
 // The following variables are the same defined at vendor/bielsystems/boletophp/boleto_cef.php
 
-$dias_de_prazo_para_pagamento = 2;
-$data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias  OU  informe data: "13/04/2006"  OU  informe "" se Contra Apresentacao;
-$valor_cobrado = $boletooptions->valor; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+$start_date = $instace->timecreated + ($parcela * 30 * 86400); // Cada parcela vence em mais 30 dias.
+
+$prazo_para_pagamento = 2 * 86400;
+$data_venc = date("d/m/Y", $start_date + ($prazo_para_pagamento));  // Prazo de X dias  OU  informe data: "13/04/2006"  OU  informe "" se Contra Apresentacao;
+$valor_cobrado = $boletooptions->valor / $boletooptions->parcelas; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado, 2, ',', '');
 
-$dadosboleto["inicio_nosso_numero"] = "80";  // TODO: Carteira SR: 80, 81 ou 82  -  Carteira CR: 90 (Confirmar com gerente qual usar)
-$dadosboleto["nosso_numero"] = "19525086";  // TODO: Nosso numero sem o DV - REGRA: Máximo de 8 caracteres!
-$dadosboleto["numero_documento"] = "27.030195.10";// TODO: Num do pedido ou do documento
-$dadosboleto["data_vencimento"] = $data_venc; // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
-$dadosboleto["data_documento"] = date("d/m/Y"); // Data de emissão do Boleto
-$dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do boleto (opcional)
-$dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
+// Carteira SR: 80, 81 ou 82 - Carteira CR: 90 (Confirmar com gerente qual usar)
+$dadosboleto["inicio_nosso_numero"] = $boletooptions->carteira;
 
-// DADOS DO SEU CLIENTE
-$dadosboleto["sacado"] = $boletooptions->sacado;
+// TODO: Nosso numero sem o DV - REGRA: Máximo de 8 caracteres!
+$dadosboleto["nosso_numero"] = "19525086";
+
+// TODO: Num do pedido ou do documento
+$dadosboleto["numero_documento"] = "27.030195.10";
+
+ // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
+$dadosboleto["data_vencimento"] = $data_venc;
+
+ // Data de emissão do Boleto
+$dadosboleto["data_documento"] = date("d/m/Y", $instance->timecreated);
+
+ // Data de processamento do boleto (opcional)
+$dadosboleto["data_processamento"] = date("d/m/Y", $instance->timecreated);
+
+// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
+$dadosboleto["valor_boleto"] = $valor_boleto;
+
+// Dados do seu cliente
+$dadosboleto["sacado"] = fullname($boletooptions->userid);
 $dadosboleto["endereco1"] = "";
 $dadosboleto["endereco2"] = "";
 
-// INFORMACOES PARA O CLIENTE
+// Informacoes para o cliente
 // TODO: implement settings with options to populate boletos
 $dadosboleto["demonstrativo1"] = "Pagamento de curso para UniSagres";
 $dadosboleto["demonstrativo2"] = "";
 $dadosboleto["demonstrativo3"] = "";
 
-// INSTRUÇÕES PARA O CAIXA
+// Instruções para o caixa
 $dadosboleto["instrucoes1"] = "";
 $dadosboleto["instrucoes2"] = "";
 $dadosboleto["instrucoes3"] = "";
 $dadosboleto["instrucoes4"] = "";
 
-// DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
+// Dados opcionais de acordo com o banco ou cliente
 // TODO: implement settings with options to populate boletos
 $dadosboleto["quantidade"] = "";
 $dadosboleto["valor_unitario"] = "";
@@ -71,25 +91,26 @@ $dadosboleto["aceite"] = "";
 $dadosboleto["especie"] = "R$";
 $dadosboleto["especie_doc"] = "";
 
-// ---------------------- DADOS FIXOS DE CONFIGURAÇÃO DO SEU BOLETO --------------- //
+// ---------------------- Dados fixos de configuração do seu boleto --------------- //
 
-// DADOS DA SUA CONTA - CEF
-$dadosboleto["agencia"] = $boletooptions->agencia; // Num da agencia, sem digito
-$dadosboleto["conta"] = $boletooptions->conta; 	// Num da conta, sem digito
-$dadosboleto["conta_dv"] = $boletooptions->contadv; 	// Digito do Num da conta
+// Dados da sua conta - CEF
+$dadosboleto["agencia"] = $boletooptions->agencia;  // Num da agencia, sem digito
+$dadosboleto["conta"] = $boletooptions->conta;      // Num da conta, sem digito
+$dadosboleto["conta_dv"] = $boletooptions->contadv; // Digito do Num da conta
 
-// DADOS PERSONALIZADOS - CEF
-$dadosboleto["conta_cedente"] = $boletooptions->cedente; // ContaCedente do Cliente, sem digito (Somente Números)
+// Dados personalizados - CEF
+$dadosboleto["conta_cedente"] = $boletooptions->cedente;      // ContaCedente do Cliente, sem digito (Somente Números)
 $dadosboleto["conta_cedente_dv"] = $boletooptions->cedentedv; // Digito da ContaCedente do Cliente
-$dadosboleto["carteira"] = $boletooptions->carteira;  // Código da Carteira: pode ser SR (Sem Registro) ou CR (Com Registro) - (Confirmar com gerente qual usar)
+$dadosboleto["carteira"] = $boletooptions->carteira;          // Código da Carteira: pode ser SR (Sem Registro) ou CR (Com Registro)
+                                                              // - (Confirmar com gerente qual usar)
 
-// SEUS DADOS
+// Seus dados
 $dadosboleto["identificacao"] = $boletooptions->nomefantasia;
 $dadosboleto["cpf_cnpj"] = $boletooptions->cnpj;
 $dadosboleto["endereco"] = $boletooptions->endereco;
 $dadosboleto["cidade_uf"] = $boletooptions->cidade;
 $dadosboleto["cedente"] = $boletooptions->razaosocial;
 
-// NÃO ALTERAR!
+// Não alterar!
 include("./vendor/bielsystems/boletophp/include/funcoes_cef.php"); 
 include("./vendor/bielsystems/boletophp/include/layout_cef.php");

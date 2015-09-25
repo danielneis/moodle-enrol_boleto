@@ -111,10 +111,10 @@ if ($mform->is_cancelled()) {
         $instance->timemodified   = time();
 
         $boletooptions = new stdclass();
+        $boletooptions->parcelas = $data->parcelas;
         $boletooptions->valor = $data->valor;
         $boletooptions->cedente = $data->cedente;
         $boletooptions->cedentedv = $data->cedentedv;
-        $boletooptions->sacado = $data->sacado;
         $boletooptions->agencia = $data->agencia;
         $boletooptions->carteira = $data->carteira;
         $boletooptions->carteiradv = $data->carteiradv;
@@ -154,10 +154,10 @@ if ($mform->is_cancelled()) {
             'enrolstartdate'  => $data->enrolstartdate,
             'enrolenddate'    => $data->enrolenddate);
         $boletooptions = new stdclass();
+        $boletooptions->parcelas = $data->parcelas;
         $boletooptions->valor = $data->valor;
         $boletooptions->cedente = $data->cedente;
         $boletooptions->cedentedv = $data->cedentedv;
-        $boletooptions->sacado = $data->sacado;
         $boletooptions->agencia = $data->agencia;
         $boletooptions->carteira = $data->carteira;
         $boletooptions->carteiradv = $data->carteiradv;
@@ -168,6 +168,7 @@ if ($mform->is_cancelled()) {
         $boletooptions->cnpj = $data->cnpj;
         $boletooptions->endereco = $data->endereco;
         $boletooptions->cidade = $data->cidade;
+        // TODO: handle numero do documento e nosso numero
         $fields['customchar3'] = json_encode($boletooptions);
         $plugin->add_instance($course, $fields);
     }
