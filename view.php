@@ -50,13 +50,11 @@ $url->param('enrolinstanceid', $enrolinstanceid);
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('incourse');
 
-$PAGE->navbar->add($course->fullname . ' '.$course->idnumber, course_get_url($course));
-$PAGE->navbar->add('Boletos');
 $PAGE->set_title('$course->fullname'. ': Boletos');
 $PAGE->set_heading($course->fullname . ': Boletos ');
 
 $renderer = $PAGE->get_renderer('enrol_boleto');
 
 echo $OUTPUT->header(),
-     $renderer->list_boletos($boletos, $course);
-echo $OUTPUT->footer();
+     $renderer->list_boletos($boletos, $course),
+     $OUTPUT->footer();

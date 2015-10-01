@@ -35,18 +35,22 @@ class enrol_boleto_renderer extends plugin_renderer_base {
     public function list_boletos($boletos, $course) {
 
         $boletourl = new moodle_url('/enrol/boleto/boleto.php');
-        echo html_writer::tag('p', get_string('alreadyenrolledinfo', 'enrol_boleto'));
+
+        $content = html_writer::tag('p', get_string('alreadyenrolledinfo', 'enrol_boleto'));
+
         if (count($boletos) > 1) {
             foreach ($boletos as $boleto) {
                 $boletourl->param('id', $boleto->id);
-                echo html_writer::tag('p', get_string('boletoprintandpayinfoparceladolink'.$boleto->parcela,
+                $content .= html_writer::tag('p', get_string('boletoprintandpayinfoparceladolink'.$boleto->parcela,
                                                       'enrol_boleto', $boletourl->out(false)));
             }
         } else {
             $boleto = array_pop($boletos);
             $boletourl->param('id', $boleto->id);
-            echo html_writer::tag('p', get_string('boletoprintandpayinfodirectlink',
+            $content .= html_writer::tag('p', get_string('boletoprintandpayinfodirectlink',
                                                   'enrol_boleto', $boletourl->out(false)));
         }
+
+        return $content;
     }
 }

@@ -72,9 +72,8 @@ $dadosboleto["endereco1"] = "";
 $dadosboleto["endereco2"] = "";
 
 // Informacoes para o cliente
-// TODO: implement settings with options to populate boletos
-$dadosboleto["demonstrativo1"] = "Pagamento de curso para UniSagres";
-$dadosboleto["demonstrativo2"] = "";
+$dadosboleto["demonstrativo1"] = "Pagamento de curso para UniSagres"; // TODO: variar conforme curso/evento. 
+$dadosboleto["demonstrativo2"] = ""; // TODO: informar parcela?
 $dadosboleto["demonstrativo3"] = "";
 
 // Instruções para o caixa

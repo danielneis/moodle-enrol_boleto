@@ -72,7 +72,7 @@ $string['nossonumero'] = 'Nosso número, sem o DV';
 $string['nossonumero_help'] = 'Nosso número padrão, que será impresso no boleto, sem o DV';
 $string['waitforpayment'] = 'Aguardar pagamento para inscrever';
 $string['waitforpayment_help'] = 'Se essa opção for marcada, o usuário só será inscrito após compensação do boleto. Caso contrario ele é automaticamente inscrito e a inscrição é suspensa caso o pagamento nao seja compensado.';
-$string['viewboleto'] = 'Ver e imprimir boleto';
+$string['viewboleto'] = 'Ver e imprimir boletos';
 
 $string['cannotenrol'] = 'Enrolment is disabled or inactive';
 $string['cohortnonmemberinfo'] = 'Only members of cohort \'{$a}\' can boleto-enrol.';
