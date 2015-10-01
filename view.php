@@ -46,12 +46,13 @@ if (!$boletos = $DB->get_records('enrol_boleto', array('enrolid' => $enrolinstan
     throw new moodle_exception('no boletos found');
 }
 $url->param('enrolinstanceid', $enrolinstanceid);
+$url->param('courseid', $courseid);
 
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('incourse');
 
-$PAGE->set_title('$course->fullname'. ': Boletos');
-$PAGE->set_heading($course->fullname . ': Boletos ');
+$PAGE->set_title($course->fullname. ' : ' . get_string('viewboleto', 'enrol_boleto'));
+$PAGE->set_heading($course->fullname);
 
 $renderer = $PAGE->get_renderer('enrol_boleto');
 

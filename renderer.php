@@ -36,7 +36,9 @@ class enrol_boleto_renderer extends plugin_renderer_base {
 
         $boletourl = new moodle_url('/enrol/boleto/boleto.php');
 
-        $content = html_writer::tag('p', get_string('alreadyenrolledinfo', 'enrol_boleto'));
+        $content = html_writer::tag('h2',get_string('viewboleto', 'enrol_boleto'));
+        
+        $content .= html_writer::tag('p', get_string('viewandprintinfo', 'enrol_boleto'));
 
         if (count($boletos) > 1) {
             foreach ($boletos as $boleto) {
