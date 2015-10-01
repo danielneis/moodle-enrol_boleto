@@ -24,17 +24,11 @@
  */
 
 /**
- *TODO: numero do documento: numero do evento (2 ano, 2 rede, 3 campus, 4 sequencial(id do curso?)) + 4 numero do ingresso
- *TODO: quantidade: quantidade de participantes
- *TODO: nosso numero: faixa de numero fornecida pela caixa
- *TODO: o primeiro boleto é o valor da matrícula (confirmar que o valor total dividido por 3 é o valor da matricula)
- *TODO: vencimento de dois dias limitado ao iníico do curso.
- *TODO: demais parcelas, 30 e 60 dias.
  *TODO: suspender inscrição caso boleto nao pago
  */
 
 /**
- * Boleto enrolment plugin implementation.
+ * Boleto enrolment plugin implementation based on self enrol.
  * @author Petr Skoda (self plugin)
  * @author Daniel Neis (additions)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -334,6 +328,62 @@ class enrol_boleto_plugin extends enrol_plugin {
         }
 
         return $this->add_instance($course, $fields);
+    }
+
+    public function add_instance($course, array $fields = NULL) {
+        global $USER, $DB;
+
+        if ($fields['customchar3']) {
+            $boletooptions = json_decode($fields['customchar3']);
+            if (!$instanceid = parent::add_instance($course, $fields)) {
+                return false;
+            }
+
+            $boleto = new stdclass();
+            $boleto->enrolid = $instanceid;
+            $boleto->sacado = fullname($USER);
+            $boleto->timecreated = time();
+            $categorypath = $DB->get_field('course_categories', 'path',
+                                           array('id' => $DB->get_field('course', 'category', array('id' => $course->id))));
+            $categories = explode('/', $categorypath);
+            // numero do documento:
+            // 2 digitos para ano corrente,
+            // 2 digitos para rede (idnumber da categoria de primeiro nivel),
+            // 2 digitos para campus (idnumber da categoria de segundo nivel),
+            // 4 digitos sequenciais (id do curso no moodle)
+            // 4 digitos para numero do ingresso (id do método de inscrição no curso moodle)
+            // 1 digito para parcela
+            $numerodocumento = date('y');
+            if (isset($categories[1])) {
+                $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[1])), 2, 0, STR_PAD_LEFT);
+            } else {
+                $numerodocumento .= '00';
+            }
+            if (isset($categories[2])) {
+                $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[2])), 2, 0, STR_PAD_LEFT);
+            } else {
+                $numerodocumento .= '00';
+            }
+            $numerodocumento .= str_pad($course->id, 4, 0, STR_PAD_LEFT);
+            $numerodocumento .= str_pad($instanceid, 4, 0, STR_PAD_LEFT);
+            if ($boletooptions->parcelas > 1) {
+                for ($parcela = 0; $parcela < 3; $parcela++) {
+                    $boleto->totalprice = $boletooptions->valor;
+                    $boleto->parcela = $parcela;
+                    $boleto->numerodocumento = $numerodocumento . $parcela;
+                    $DB->insert_record('enrol_boleto', $boleto);
+                }
+            } else {
+                $boleto->totalprice = $boletooptions->valor;
+                $boleto->parcela = 0;
+                $boleto->numerodocumento = $numerodocumento . 0;
+                $DB->insert_record('enrol_boleto', $boleto);
+            }
+
+            return $instanceid;
+        } else {
+            return false;
+        }
     }
 
     /**

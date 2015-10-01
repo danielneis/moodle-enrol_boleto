@@ -24,70 +24,39 @@
 
 require_once('../../config.php');
 
-$instanceid = required_param('instanceid', PARAM_INT);
+$enrolinstanceid = required_param('enrolinstanceid', PARAM_INT);
 $courseid = required_param('courseid', PARAM_INT);
 
-require_login(SITEID);
+require_login($courseid);
 
 $course = get_course($courseid);
 
-$enrols = enrol_get_plugins(true);
-$enrolinstances = enrol_get_instances($course->id, true);
-foreach($enrolinstances as $instance) {
-    if ($instance->id == $instanceid) {
-        break;
-    }
-}
-
 $url = new moodle_url('/enrol/boleto/view.php');
-$url->param('instanceid', $instanceid);
 
-
-require_once($CFG->dirroot.'/enrol/locallib.php');
-$manager = new course_enrolment_manager($PAGE, $course);
-$enrols = $manager->get_user_enrolments($USER->id);
-$alreadyenrolled = false;
-foreach ($enrols as $e) {
-    if ($e->enrolmentinstance->enrol == 'boleto') {
-        $alreadyenrolled = true;
-        break;
-    }
+if (!$enrol = $DB->get_record('enrol', array('id' => $enrolinstanceid))) {
+    throw new invalid_parameter_exception('invalid enrol informed');
 }
+if (!$preenrol = $DB->get_record('local_agenda_preenrols', array('enrolinstanceid' => $enrolinstanceid))) {
+    print_error('preenrolnotfound');
+}
+if ($preenrol->userid != $USER->id) {
+    require_capability('local/agenda:viewallpreenrols', context_system::instance());
+}
+if (!$boletos = $DB->get_records('enrol_boleto', array('enrolid' => $enrolinstanceid))) {
+    throw new moodle_exception('no boletos found');
+}
+$url->param('enrolinstanceid', $enrolinstanceid);
 
 $PAGE->set_url($url);
-$PAGE->set_pagelayout('base');
+$PAGE->set_pagelayout('incourse');
 
+$PAGE->navbar->add($course->fullname . ' '.$course->idnumber, course_get_url($course));
+$PAGE->navbar->add('Boletos');
+$PAGE->set_title('$course->fullname'. ': Boletos');
+$PAGE->set_heading($course->fullname . ': Boletos ');
 
-if ($alreadyenrolled) {
-        require_once($CFG->dirroot.'/course/lib.php');
-        $PAGE->navbar->add($course->fullname . ' '.$course->idnumber, course_get_url($course));
-        $PAGE->navbar->add('Boletos');
-        $PAGE->set_title("{$course->fullname}: Boletos");
-        $PAGE->set_heading($course->fullname . ' '.$course->idnumber);
+$renderer = $PAGE->get_renderer('enrol_boleto');
 
-        echo $OUTPUT->header();
-
-        $boletourl = new moodle_url('/enrol/boleto/boleto.php', array('instanceid' => $instance->id));
-        echo html_writer::tag('p', get_string('alreadyenrolledinfo', 'enrol_boleto'));
-        // customint8 == avista.
-        if ($instance->customint8) {
-            echo html_writer::tag('p', get_string('boletoprintandpayinfodirectlinks', 'enrol_boleto', $boletourl->out(false)));
-        } else {
-            echo html_writer::tag('p', get_string('boletoprintandpayinfoparceladolink0', 'enrol_boleto', $boletourl->out(false)));
-
-            $boletourl->param('parcela', 1);
-            echo html_writer::tag('p', get_string('boletoprintandpayinfoparceladolink1', 'enrol_boleto', $boletourl->out(false)));
-
-            $boletourl->param('parcela', 2);
-            echo html_writer::tag('p', get_string('boletoprintandpayinfoparceladolink2', 'enrol_boleto', $boletourl->out(false)));
-        }
-} else {
-    $PAGE->navbar->add('Inscrições');
-    $PAGE->navbar->add($course->fullname . ' '.$course->idnumber, $url);
-    $PAGE->set_title("{$course->fullname}: Inscrições");
-    $PAGE->set_heading($course->fullname . ' '.$course->idnumber);
-    echo $OUTPUT->header();
-    $form = new enrol_boleto_enrol_form($CFG->wwwroot.'/enrol/index.php', $instance);
-    $form->display();
-}
+echo $OUTPUT->header(),
+     $renderer->list_boletos($boletos, $course);
 echo $OUTPUT->footer();

@@ -120,6 +120,7 @@ if ($mform->is_cancelled()) {
         $boletooptions->carteiradv = $data->carteiradv;
         $boletooptions->conta = $data->conta;
         $boletooptions->contadv = $data->contadv;
+        $boletooptions->nossonumero = $data->nossonumero;
         $boletooptions->razaosocial = $data->razaosocial;
         $boletooptions->nomefantasia = $data->nomefantasia;
         $boletooptions->cnpj = $data->cnpj;
@@ -163,12 +164,12 @@ if ($mform->is_cancelled()) {
         $boletooptions->carteiradv = $data->carteiradv;
         $boletooptions->conta = $data->conta;
         $boletooptions->contadv = $data->contadv;
+        $boletooptions->nossonumero = $data->nosonumero;
         $boletooptions->razaosocial = $data->razaosocial;
         $boletooptions->nomefantasia = $data->nomefantasia;
         $boletooptions->cnpj = $data->cnpj;
         $boletooptions->endereco = $data->endereco;
         $boletooptions->cidade = $data->cidade;
-        // TODO: handle numero do documento e nosso numero
         $fields['customchar3'] = json_encode($boletooptions);
         $plugin->add_instance($course, $fields);
     }

@@ -78,6 +78,10 @@ class enrol_boleto_edit_form extends moodleform {
         $mform->setDefault('contadv', $boletooptions->contadv);
         $mform->setType('contadv', PARAM_INT);
 
+        $mform->addElement('text', 'nossonumero', get_string('nossonumero', 'enrol_boleto'));
+        $mform->setDefault('nossonumero', $boletooptions->nossonumero);
+        $mform->setType('nossonumero', PARAM_INT);
+
         $mform->addElement('text', 'nomefantasia', get_string('nomefantasia', 'enrol_boleto'));
         $mform->setDefault('nomefantasia', $boletooptions->nomefantasia);
         $mform->setType('nomefantasia', PARAM_TEXT);

@@ -25,19 +25,19 @@
 
 require_once('../../config.php');
 
-$instanceid = required_param('instanceid', PARAM_INT);
-$parcela = optional_param('parcela', 0, PARAM_INT);
+$id = required_param('id', PARAM_INT);
 
-$instance = $DB->get_record('enrol', array('id' => $instanceid));
-$boletooptions = json_decode($instance->customchar3);
-
-if (($instance->customint8 && $parcela) or $parcela > 2) {
-    throw new moodle_exception('invalidparcela', 'enrol_boleto');
+if (!$boleto = $DB->get_record('enrol_boleto', array('id' => $id))) {
+    print_error('invalid boleto');
 }
+if (!$instance = $DB->get_record('enrol', array('id' => $boleto->enrolid))) {
+    print_error('invalid boleto');
+}
+$boletooptions = json_decode($instance->customchar3);
 
 // The following variables are the same defined at vendor/bielsystems/boletophp/boleto_cef.php
 
-$start_date = $instance->timecreated + ($parcela * 30 * 86400); // Cada parcela vence em mais 30 dias.
+$start_date = $instance->timecreated + ($boleto->parcela * 30 * 86400); // Cada parcela vence em mais 30 dias.
 
 $prazo_para_pagamento = 2 * 86400;
 $data_venc = date("d/m/Y", $start_date + ($prazo_para_pagamento));  // Prazo de X dias  OU  informe data: "13/04/2006"  OU  informe "" se Contra Apresentacao;
@@ -48,11 +48,11 @@ $valor_boleto=number_format($valor_cobrado, 2, ',', '');
 // Carteira SR: 80, 81 ou 82 - Carteira CR: 90 (Confirmar com gerente qual usar)
 $dadosboleto["inicio_nosso_numero"] = $boletooptions->carteira;
 
-// TODO: Nosso numero sem o DV - REGRA: Máximo de 8 caracteres!
-$dadosboleto["nosso_numero"] = "19525086";
+// Nosso numero sem o DV - REGRA: Máximo de 8 caracteres!
+$dadosboleto["nosso_numero"] = $boletooptions->nossonumero;
 
-// TODO: Num do pedido ou do documento
-$dadosboleto["numero_documento"] = "27.030195.10";
+// Num do pedido ou do documento
+$dadosboleto["numero_documento"] = $boleto->numerodocumento;
 
  // Data de Vencimento do Boleto - REGRA: Formato DD/MM/AAAA
 $dadosboleto["data_vencimento"] = $data_venc;
@@ -67,7 +67,7 @@ $dadosboleto["data_processamento"] = date("d/m/Y", $instance->timecreated);
 $dadosboleto["valor_boleto"] = $valor_boleto;
 
 // Dados do seu cliente
-$dadosboleto["sacado"] = fullname($USER); // TODO: use correct user
+$dadosboleto["sacado"] = $boleto->sacado;
 $dadosboleto["endereco1"] = "";
 $dadosboleto["endereco2"] = "";
 
@@ -84,10 +84,9 @@ $dadosboleto["instrucoes3"] = "";
 $dadosboleto["instrucoes4"] = "";
 
 // Dados opcionais de acordo com o banco ou cliente
-// TODO: implement settings with options to populate boletos
-$dadosboleto["quantidade"] = "";
-$dadosboleto["valor_unitario"] = "";
-$dadosboleto["aceite"] = "";		
+$dadosboleto["quantidade"] = "";  // TODO: quantidade: quantidade de participantes
+$dadosboleto["valor_unitario"] = ""; // TODO: preencher com preço?
+$dadosboleto["aceite"] = ""; // ??
 $dadosboleto["especie"] = "R$";
 $dadosboleto["especie_doc"] = "";
 

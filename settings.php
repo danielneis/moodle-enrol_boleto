@@ -53,6 +53,9 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('enrol_boleto/contadv',
         get_string('contadv', 'enrol_boleto'), get_string('contadv_help', 'enrol_boleto'), 0, PARAM_INT));
 
+    $settings->add(new admin_setting_configtext('enrol_boleto/nossonumero',
+        get_string('nossonumero', 'enrol_boleto'), get_string('nossonumero_help', 'enrol_boleto'), 0, PARAM_INT));
+
     $settings->add(new admin_setting_configtext('enrol_boleto/razaosocial',
         get_string('razaosocial', 'enrol_boleto'), get_string('razaosocial_help', 'enrol_boleto'), '', PARAM_TEXT));
 
