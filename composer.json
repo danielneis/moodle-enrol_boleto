@@ -9,9 +9,11 @@
             "email": "danielneis@gmail.com"
         }
     ],
+    "repositories" : [
+        { "type": "vcs", "url": "https://github.com/danielneis/boletophp" }
+    ],
     "require": {
-        "composer/installers": "~1.0",
-        "bielsystems/boletophp": "dev-master"
+        "bielsystems/boletophp": "dev-moodle-utf8"
     },
     "extra": {
         "installer-name": "boleto"
