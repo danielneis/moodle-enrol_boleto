@@ -10,7 +10,7 @@
         }
     ],
     "repositories" : [
-        { "type": "vcs", "url": "https://github.com/danielneis/boletophp" }
+        { "type": "vcs", "url": "https://github.com/danielneis/boletophp.git" }
     ],
     "require": {
         "bielsystems/boletophp": "dev-moodle-utf8"
