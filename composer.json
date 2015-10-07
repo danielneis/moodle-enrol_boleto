@@ -13,6 +13,7 @@
         { "type": "vcs", "url": "https://github.com/danielneis/boletophp.git" }
     ],
     "require": {
+        "composer/installers": "*",
         "bielsystems/boletophp": "dev-moodle-utf8"
     },
     "extra": {
