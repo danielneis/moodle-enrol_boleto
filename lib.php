@@ -60,13 +60,43 @@ class enrol_boleto_plugin extends enrol_plugin {
         }
     }
 
+    /**
+     * Composição do número do documento:
+     * 2 digitos para ano corrente
+     * 2 digitos para rede (idnumber da categoria de primeiro nivel) (cogitável)
+     * 2 digitos para campus (idnumber da categoria de segundo nivel) (cogitável)
+     * 4 digitos sequenciais (id do curso no moodle)
+     * 4 digitos para numero do ingresso (id do usuário que gerou o boleto)
+     * 1 digito para parcela
+     **/
+    public function get_numero_documento_sem_parcela($instanceid, $courseid) {
+        global $USER, $DB;
+        $categorypath = $DB->get_field('course_categories', 'path',
+                                       array('id' => $DB->get_field('course', 'category', array('id' => $courseid))));
+        $categories = explode('/', $categorypath);
+
+        $numerodocumento = date('y');
+        if (isset($categories[1])) {
+            $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[1])), 2, 0, STR_PAD_LEFT);
+        } else {
+            $numerodocumento .= '00';
+        }
+        if (isset($categories[2])) {
+            $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[2])), 2, 0, STR_PAD_LEFT);
+        } else {
+            $numerodocumento .= '00';
+        }
+        $numerodocumento .= str_pad($USER->id, 4, 0, STR_PAD_LEFT);
+        $numerodocumento .= str_pad($instanceid, 4, 0, STR_PAD_LEFT);
+    }
+
     public function roles_protected() {
         // Users may tweak the roles later.
         return false;
     }
 
     public function allow_unenrol(stdClass $instance) {
-        // Users with unenrol cap may unenrol other users manually manually.
+        // Users with unenrol cap may unenrol other users manually.
         return true;
     }
 
@@ -76,12 +106,7 @@ class enrol_boleto_plugin extends enrol_plugin {
     }
 
     public function show_enrolme_link(stdClass $instance) {
-
-        if (true !== $this->can_boleto_enrol($instance, false)) {
-            return false;
-        }
-
-        return true;
+        return $this->can_boleto_enrol($instance, false);
     }
 
     /**
@@ -343,30 +368,9 @@ class enrol_boleto_plugin extends enrol_plugin {
             $boleto->enrolid = $instanceid;
             $boleto->sacado = fullname($USER);
             $boleto->timecreated = time();
-            $categorypath = $DB->get_field('course_categories', 'path',
-                                           array('id' => $DB->get_field('course', 'category', array('id' => $course->id))));
-            $categories = explode('/', $categorypath);
-            // numero do documento:
-            // 2 digitos para ano corrente,
-            // 2 digitos para rede (idnumber da categoria de primeiro nivel),
-            // 2 digitos para campus (idnumber da categoria de segundo nivel),
-            // 4 digitos sequenciais (id do curso no moodle)
-            // 4 digitos para numero do ingresso (id do método de inscrição no curso moodle)
-            // 1 digito para parcela
-            $numerodocumento = date('y');
-            if (isset($categories[1])) {
-                $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[1])), 2, 0, STR_PAD_LEFT);
-            } else {
-                $numerodocumento .= '00';
-            }
-            if (isset($categories[2])) {
-                $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[2])), 2, 0, STR_PAD_LEFT);
-            } else {
-                $numerodocumento .= '00';
-            }
-            $numerodocumento .= str_pad($course->id, 4, 0, STR_PAD_LEFT);
-            $numerodocumento .= str_pad($instanceid, 4, 0, STR_PAD_LEFT);
+            $numerodocumento = $this->get_numero_documento_sem_parcela($instanceid, $course->id);
             if ($boletooptions->parcelas > 1) {
+                $boleto->name = get_string('paymenparcelado', 'enrolboleto') .' - '. $numerodocumento;
                 for ($parcela = 0; $parcela < 3; $parcela++) {
                     $boleto->totalprice = $boletooptions->valor;
                     $boleto->parcela = $parcela;
@@ -374,6 +378,7 @@ class enrol_boleto_plugin extends enrol_plugin {
                     $DB->insert_record('enrol_boleto', $boleto);
                 }
             } else {
+                $boleto->name = get_string('paymentavista', 'enrolboleto') .' - '. $numerodocumento;
                 $boleto->totalprice = $boletooptions->valor;
                 $boleto->parcela = 0;
                 $boleto->numerodocumento = $numerodocumento . 0;
