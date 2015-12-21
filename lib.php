@@ -66,28 +66,32 @@ class enrol_boleto_plugin extends enrol_plugin {
      * 2 digitos para rede (idnumber da categoria de primeiro nivel) (cogitável)
      * 2 digitos para campus (idnumber da categoria de segundo nivel) (cogitável)
      * 4 digitos sequenciais (id do curso no moodle)
-     * 4 digitos para numero do ingresso (id do usuário que gerou o boleto)
+     * 4 digitos para numero do ingresso (id da pré-inscrição que gerou o boleto)
      * 1 digito para parcela
+     * @return string  Os 14 primeiros dígitos do número do documento (só deixa de fora a parcela)
      **/
-    public function get_numero_documento_sem_parcela($instanceid, $courseid) {
+    public function get_numero_documento_sem_parcela($courseid, $preenrolid) {
         global $USER, $DB;
         $categorypath = $DB->get_field('course_categories', 'path',
                                        array('id' => $DB->get_field('course', 'category', array('id' => $courseid))));
         $categories = explode('/', $categorypath);
 
         $numerodocumento = date('y');
+
         if (isset($categories[1])) {
             $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[1])), 2, 0, STR_PAD_LEFT);
         } else {
             $numerodocumento .= '00';
         }
+
         if (isset($categories[2])) {
             $numerodocumento .= str_pad($DB->get_field('course_categories', 'idnumber', array('id' => $categories[2])), 2, 0, STR_PAD_LEFT);
         } else {
             $numerodocumento .= '00';
         }
-        $numerodocumento .= str_pad($USER->id, 4, 0, STR_PAD_LEFT);
-        $numerodocumento .= str_pad($instanceid, 4, 0, STR_PAD_LEFT);
+        $numerodocumento .= str_pad($courseid, 4, 0, STR_PAD_LEFT);
+        $numerodocumento .= str_pad($preenrolid, 4, 0, STR_PAD_LEFT);
+        return $numerodocumento;
     }
 
     public function roles_protected() {
@@ -368,9 +372,9 @@ class enrol_boleto_plugin extends enrol_plugin {
             $boleto->enrolid = $instanceid;
             $boleto->sacado = fullname($USER);
             $boleto->timecreated = time();
-            $numerodocumento = $this->get_numero_documento_sem_parcela($instanceid, $course->id);
+            $numerodocumento = $fields['numerodocumento'];
             if ($boletooptions->parcelas > 1) {
-                $boleto->name = get_string('paymenparcelado', 'enrolboleto') .' - '. $numerodocumento;
+                $boleto->name = get_string('paymentparcelado', 'enrolboleto') .' - '. $numerodocumento;
                 for ($parcela = 0; $parcela < $boletooptions->parcelas; $parcela++) {
                     $boleto->totalprice = $boletooptions->valor / $boletooptions->parcelas;
                     $boleto->parcela = $parcela;
