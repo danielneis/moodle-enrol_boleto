@@ -372,20 +372,16 @@ class enrol_boleto_plugin extends enrol_plugin {
             $boleto->enrolid = $instanceid;
             $boleto->sacado = fullname($USER);
             $boleto->timecreated = time();
-            $numerodocumento = $fields['numerodocumento'];
-            if ($boletooptions->parcelas > 1) {
-                $boleto->name = get_string('paymentparcelado', 'enrolboleto') .' - '. $numerodocumento;
-                for ($parcela = 0; $parcela < $boletooptions->parcelas; $parcela++) {
-                    $boleto->totalprice = $boletooptions->valor / $boletooptions->parcelas;
-                    $boleto->parcela = $parcela;
-                    $boleto->numerodocumento = $numerodocumento . $parcela;
-                    $DB->insert_record('enrol_boleto', $boleto);
-                }
+            $numerodocumento = $this->get_numero_documento_sem_parcela($instanceid, $course->id);
+            if (count($boletooptions->parcelas) > 1) {
+                $boleto->name = get_string('paymenparcelado', 'enrol_boleto') .' - '. $numerodocumento;
             } else {
-                $boleto->name = get_string('paymentavista', 'enrolboleto') .' - '. $numerodocumento;
-                $boleto->totalprice = $boletooptions->valor;
-                $boleto->parcela = 0;
-                $boleto->numerodocumento = $numerodocumento . 0;
+                $boleto->name = get_string('paymentavista', 'enrol_boleto') .' - '. $numerodocumento;
+            }
+            foreach ($boletooptions->parcelas as $parcela => $valor) {
+                $boleto->totalprice = $valor;
+                $boleto->parcela = $parcela;
+                $boleto->numerodocumento = $numerodocumento . $parcela;
                 $DB->insert_record('enrol_boleto', $boleto);
             }
 

@@ -28,9 +28,10 @@ $string['avista_help'] = 'Para pagamento parcelado (1+2) desmarque essa opção.
 $string['boletosettings'] = 'Configurações do boleto';
 $string['boletoprintandpayinfo'] = 'Para se inscrever neste curso é necessário pagar um boleto bancário. Ao clicar no botão "Inscrever-me" abaixo, você será automaticamente inscrito no curso, mesmo não tendo pago o boleto. Caso você não pague o boleto até o dia do vencimento, sua inscrição no curso será suspensa. Após se inscrever, você poderá acessar novamente este boleto no link "Ver boletos" do menu "Administração do curso".<br/>Note que se você pagar o boleto e não clicar no botão abaixo, sua inscrição não será efetuada.';
 $string['boletoprintandpayinfodirectlink'] = 'Você pode acessar este <a href="{$a}">link para ver e imprimir o boleto</a>.';
-$string['boletoprintandpayinfoparceladolink0'] = '<a href="{$a}">Ver e imprimir o primeiro boleto, a ser pago a vista</a>.';
-$string['boletoprintandpayinfoparceladolink1'] = '<a href="{$a}">Ver e imprimir o segundo boleto, a ser pago em até 30 dias</a>.';
-$string['boletoprintandpayinfoparceladolink2'] = '<a href="{$a}">Ver e imprimir o terceiro boleto, a ser pago em até 60 dias</a>.';
+$string['boletoprintandpayinfoparceladolink1'] = '<a href="{$a}">Ver e imprimir o primeiro boleto, a ser pago a vista</a>.';
+$string['boletoprintandpayinfoparceladolink2'] = '<a href="{$a}">Ver e imprimir o segundo boleto, a ser pago em até 30 dias</a>.';
+$string['boletoprintandpayinfoparceladolink3'] = '<a href="{$a}">Ver e imprimir o terceiro boleto, a ser pago em até 60 dias</a>.';
+$string['boletoprintandpayinfoparceladolink4'] = '<a href="{$a}">Ver e imprimir o terceiro boleto, a ser pago em até 90 dias</a>.';
 $string['directavista'] = 'A vista no boleto';
 $string['directparcelado'] = 'Parcelado no boleto';
 $string['directpagseguro'] = 'PagSeguro';
